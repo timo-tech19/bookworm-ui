@@ -2,13 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useScrollTop } from "@/hooks/use-scroll-top";
+import { titleFont } from "@/lib/font";
 import { cn } from "@/lib/utils";
-import { Poppins } from "next/font/google";
-
-const font = Poppins({
-	subsets: ["latin"],
-	weight: ["400", "600"],
-});
 
 // top navbar for landing page
 const Navbar = () => {
@@ -25,7 +20,7 @@ const Navbar = () => {
 				<h1
 					className={cn(
 						"scroll-m-20 text-3xl font-semibold tracking-tight",
-						font.className
+						titleFont.className
 					)}
 				>
 					Bookworm.io

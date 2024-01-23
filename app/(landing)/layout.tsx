@@ -3,9 +3,9 @@ import Navbar from "./_components/navbar";
 // Bookworm Landing page layout
 function LandingLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className='h-full'>
+		<div className='h-screen'>
 			<Navbar />
-			<main>{children}</main>
+			<main className='h-full pt-40'>{children}</main>
 		</div>
 	);
 }
