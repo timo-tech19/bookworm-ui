@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Inter } from "next/font/google";
 
-const font = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Bookworm",
@@ -17,14 +17,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body
-				className={cn(
-					"min-h-screen bg-background font-sans antialiased",
-					font.className
-				)}
-			>
-				{children}
-			</body>
+			<body className={inter.className}>{children}</body>
 		</html>
 	);
 }
