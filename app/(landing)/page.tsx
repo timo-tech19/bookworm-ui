@@ -15,7 +15,7 @@ function LandingPage() {
           <h3 className="leading-7 text-xl">
             Take control of your life by reading consistently
           </h3>
-          <Link href="/overview" className="inline-block">
+          <Link href="/app" className="inline-block">
             <Button size="lg" role="link" className="text-md">
               Join Bookworm Free
             </Button>
