@@ -9,3 +9,18 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model ReadingList {
+  id    Int    @id @default(autoincrement())
+  books Book[]
+}
+
+model Book {
+  id            Int         @id @default(autoincrement())
+  title         String
+  author        String
+  status        String
+  genre         String
+  readingListId Int
+  readingList   ReadingList @relation(fields: [readingListId], references: [id])
+}

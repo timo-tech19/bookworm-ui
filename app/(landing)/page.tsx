@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { titleFont } from "@/lib/font";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import Logo from "@/components/ui/logo";
 
 function LandingPage() {
   return (
@@ -14,9 +15,11 @@ function LandingPage() {
           <h3 className="leading-7 text-xl">
             Take control of your life by reading consistently
           </h3>
-          <Button size="lg" className="text-md">
-            Join Bookworm Free
-          </Button>
+          <Link href="/overview" className="inline-block">
+            <Button size="lg" role="link" className="text-md">
+              Join Bookworm Free
+            </Button>
+          </Link>
           <div className="flex items-center justify-center">
             <div className="relative w-[350px] h-[350px] md:h-[400px] md:w-[400px]">
               <Image
@@ -30,14 +33,7 @@ function LandingPage() {
         </div>
       </div>
       <div className="flex justify-between p-6">
-        <h2
-          className={cn(
-            "text-2xl font-semibold tracking-tight",
-            titleFont.className
-          )}
-        >
-          Bookworm.io
-        </h2>
+        <Logo />
         <div>Copyright &copy; 2024, TimoTech</div>
       </div>
     </div>
