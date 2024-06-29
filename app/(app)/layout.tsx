@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <div className="flex-1 flex gap-1 flex-col">
-        <div className="p-4">
+        <div className="p-4 border-b-2 border-slate-200">
           <h2 className="text-2xl font-semibold">Welcome Back, User</h2>
         </div>
         <div className="px-4 flex-1">{children}</div>
