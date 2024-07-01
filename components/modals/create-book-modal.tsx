@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -9,8 +11,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import CreateForm from "@/components/create-form";
+import { useState } from "react";
 
 export default function CreateBookModal() {
+  // TODO: Add functionality to close modal when form is submitted.
+
   return (
     <Dialog>
       <DialogTrigger asChild>

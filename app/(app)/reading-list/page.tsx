@@ -21,11 +21,9 @@ export default async function Page() {
 
   return (
     <section className="mt-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-1xl uppercase font-semibold mb-4">Reading List</h2>
-        <div>
-          <CreateBookModal />
-        </div>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-1xl uppercase font-semibold">Reading List</h2>
+        <CreateBookModal />
       </div>
       <DataTable columns={columns} data={data?.books!} />
     </section>

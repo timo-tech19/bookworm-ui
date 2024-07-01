@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { createBook } from "@/lib/actions";
+import SubmitButton from "./submit-button";
 
 const createBookSchema = z.object({
   title: z
@@ -45,8 +47,9 @@ export default function CreateForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createBookSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof createBookSchema>) {
+    await createBook(values);
+    form.reset();
   }
 
   return (
@@ -115,7 +118,7 @@ export default function CreateForm() {
         />
         {/* Because form is render in a dialog component */}
         <DialogFooter>
-          <Button type="submit">Add Book</Button>
+          <SubmitButton>Add Book</SubmitButton>
         </DialogFooter>
       </form>
     </Form>
