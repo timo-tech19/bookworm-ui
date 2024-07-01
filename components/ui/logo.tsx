@@ -3,9 +3,10 @@ import { cn } from "@/lib/utils";
 
 interface LogoProps {
   size?: "small" | "medium" | "large";
+  color?: "white" | "black";
 }
 
-export default function Logo({ size = "medium" }: LogoProps) {
+export default function Logo({ size = "medium", color = "black" }: LogoProps) {
   return (
     <h1
       className={cn(
@@ -13,7 +14,8 @@ export default function Logo({ size = "medium" }: LogoProps) {
         titleFont.className,
         size === "small" && "text-1xl",
         size === "medium" && "text-2xl",
-        size === "large" && "text-3xl"
+        size === "large" && "text-3xl",
+        color === "white" ? "text-slate-50" : "text-slate-900"
       )}
     >
       Bookworm.io

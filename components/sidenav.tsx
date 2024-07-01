@@ -31,7 +31,7 @@ export default function SideNav() {
   return (
     <div className="p-2 w-64">
       <div className="mt-4 text-center">
-        <Logo size="large" />
+        <Logo size="large" color="white" />
       </div>
 
       <nav className="mt-8 flex flex-col gap-2">
@@ -42,7 +42,7 @@ export default function SideNav() {
               key={link.label}
               href={link.href}
               className={cn(
-                "flex items-center px-4 py-2 text-sm font-medium rounded-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors",
+                "flex items-center px-4 py-2 text-sm font-medium rounded-sm text-slate-50 hover:bg-slate-50 hover:text-slate-900 transition-colors",
                 link.href === pathname &&
                   "bg-slate-50 text-slate-900 font-semibold"
               )}
