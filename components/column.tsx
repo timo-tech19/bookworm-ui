@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { capitalise, cn } from "@/lib/utils";
+import { deleteBook } from "@/lib/actions";
 
 export type Book = {
   id: number;
@@ -98,7 +99,7 @@ export const columns: ColumnDef<Book>[] = [
               <DoorOpen className="h-5 w-5 mr-2" />
               <span>Open</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deleteBook(book.id)}>
               <Trash className="h-5 w-5 mr-2" />
               <span>Delete</span>
             </DropdownMenuItem>

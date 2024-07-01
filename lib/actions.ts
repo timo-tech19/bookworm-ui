@@ -12,6 +12,8 @@ type NewBook = {
 };
 
 export async function createBook(values: NewBook) {
+  // TODO: check permissions
+
   // create a new book
   try {
     await prisma.book.create({
@@ -29,6 +31,23 @@ export async function createBook(values: NewBook) {
     throw new Error("Could not create new book");
   }
 
-  // revalidate query
+  revalidatePath("/reading-list");
+}
+
+export async function deleteBook(bookId: number) {
+  // TODO: check permissions
+
+  // delete a book
+  try {
+    await prisma.book.delete({
+      where: {
+        id: bookId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error("Could not delete book");
+  }
+
   revalidatePath("/reading-list");
 }
