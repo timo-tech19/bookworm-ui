@@ -4,7 +4,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">
       <div className="flex">
-        <div className="bg-slate-800">
+        <div className="bg-primary">
           <SideNav />
         </div>
       </div>

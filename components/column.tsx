@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DoorOpen, MoreHorizontal, Trash } from "lucide-react";
+import { Book, DoorOpen, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { capitalise, cn } from "@/lib/utils";
 import { deleteBook } from "@/lib/actions";
+import BookStatus from "./book-status";
 
 export type Book = {
   id: number;
@@ -37,7 +38,7 @@ export const columns: ColumnDef<Book>[] = [
     cell: ({ row }) => {
       return (
         <Link
-          href={`/books/${+row.original.id}}`}
+          href={`/books/${row.original.id}`}
           className="font-semibold underline"
         >
           {row.original.title}
@@ -52,25 +53,7 @@ export const columns: ColumnDef<Book>[] = [
   {
     header: "Status",
     accessorKey: "status",
-    cell: ({ row }) => {
-      const bookStatus = row.original.status;
-
-      return (
-        <span
-          className={cn(
-            "px-2 py-1 rounded-lg",
-            bookStatus === "unread" && "bg-red-200",
-            bookStatus === "reading" && "bg-blue-200",
-            bookStatus === "done" && "bg-green-200",
-            bookStatus === "archived" && "bg-slate-200"
-            // bookStatus === "on-hold" && "bg-orange-200",
-            // bookStatus === "dropped" && "bg-purple-200"
-          )}
-        >
-          {capitalise(bookStatus)}
-        </span>
-      );
-    },
+    cell: ({ row }) => <BookStatus bookStatus={row.original.status} />,
   },
   {
     header: "Genre",
