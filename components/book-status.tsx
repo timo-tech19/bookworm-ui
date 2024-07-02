@@ -11,7 +11,7 @@ export default function BookStatus({ bookStatus }: BookStatusProps) {
         bookStatus === "unread" && "bg-red-200",
         bookStatus === "reading" && "bg-blue-200",
         bookStatus === "done" && "bg-green-200",
-        bookStatus === "archived" && "bg-slate-200"
+        bookStatus === "archive" && "bg-slate-200"
         // bookStatus === "on-hold" && "bg-orange-200",
         // bookStatus === "dropped" && "bg-purple-200"
       )}

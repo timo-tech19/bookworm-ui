@@ -21,34 +21,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
-import { createBook } from "@/lib/actions";
+import { createBook, updateBook } from "@/lib/actions";
 import SubmitButton from "./submit-button";
+import { Book } from "@prisma/client";
 
-const createBookSchema = z.object({
+const editBookSchema = z.object({
   title: z
     .string()
     .min(2, { message: "Book title must be at lease 2 characters" }),
   author: z
     .string()
     .min(2, { message: "Author name must be at lease 2 characters" }),
-  status: z.enum(["unread", "reading", "done", "archive"]),
+  status: z.string(),
   genre: z.string(),
 });
 
-export default function CreateForm() {
-  const form = useForm<z.infer<typeof createBookSchema>>({
-    resolver: zodResolver(createBookSchema),
+export default function EditForm({ book }: { book: Book }) {
+  const form = useForm<z.infer<typeof editBookSchema>>({
+    resolver: zodResolver(editBookSchema),
     defaultValues: {
-      title: "",
-      author: "",
-      status: "unread",
-      genre: "",
+      title: book.title,
+      author: book.author,
+      status: book.status,
+      genre: book.genre,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof createBookSchema>) {
-    await createBook(values);
-    form.reset();
+  async function onSubmit(values: z.infer<typeof editBookSchema>) {
+    const updateValues = {
+      ...values,
+      id: book.id,
+    };
+    await updateBook(updateValues);
   }
 
   return (
@@ -117,7 +121,7 @@ export default function CreateForm() {
         />
         {/* Because form is render in a dialog component */}
         <DialogFooter>
-          <SubmitButton>Add Book</SubmitButton>
+          <SubmitButton>Save Changes</SubmitButton>
         </DialogFooter>
       </form>
     </Form>

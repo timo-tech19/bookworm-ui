@@ -1,7 +1,9 @@
-import BookStatus from "@/components/book-status";
-import { Button } from "@/components/ui/button";
-import prisma from "@/lib/db";
 import { BookCopy, CircleDashed, Edit, User2 } from "lucide-react";
+
+import BookStatus from "@/components/book-status";
+import EditBookModal from "@/components/modals/edit-book-modal";
+import prisma from "@/lib/db";
+import { capitalise } from "@/lib/utils";
 
 interface PageProps {
   params: {
@@ -21,10 +23,7 @@ export default async function Page({ params }: PageProps) {
         <h2 className="font-bold text-4xl uppercase text-primary">
           {book?.title}
         </h2>
-        <Button>
-          <Edit className="h-5 w-5 mr-2" />
-          <span>Edit Book</span>
-        </Button>
+        {book && <EditBookModal book={book} />}
       </div>
       <div className="flex flex-col gap-4 mt-6 mx-6">
         {/* TODO: fix alignment with css grid */}
@@ -51,7 +50,9 @@ export default async function Page({ params }: PageProps) {
             <BookCopy className="w-6 h-6 mr-2" />
             <span>Genre</span>
           </span>
-          <span className="flex-1 font-semibold">{book?.genre}</span>
+          <span className="flex-1 font-semibold">
+            {book?.genre && capitalise(book.genre)}
+          </span>
         </p>
       </div>
       <div className="mt-10 text-sm text-slate-400">

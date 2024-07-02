@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import CreateForm from "@/components/create-form";
-import { useState } from "react";
+import { PlusCircle } from "lucide-react";
 
 export default function CreateBookModal() {
   // TODO: Add functionality to close modal when form is submitted.
@@ -19,7 +19,9 @@ export default function CreateBookModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add New Book</Button>
+        <Button>
+          <PlusCircle className="h-5 w-5 mr-2" /> <span>Add New Book</span>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
