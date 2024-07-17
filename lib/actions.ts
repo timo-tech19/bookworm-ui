@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import prisma from "./db";
+import { db } from "@/lib/db";
 
 type NewBook = {
   title: string;
@@ -25,7 +25,7 @@ export async function createBook(values: NewBook) {
 
   // create a new book
   try {
-    await prisma.book.create({
+    await db.book.create({
       data: {
         title: values.title,
         author: values.author,
@@ -45,7 +45,7 @@ export async function createBook(values: NewBook) {
 
 export async function updateBook(values: UpdateBook) {
   try {
-    const updatedBook = await prisma.book.update({
+    const updatedBook = await db.book.update({
       where: {
         id: values.id,
       },
@@ -69,7 +69,7 @@ export async function deleteBook(bookId: number) {
 
   // delete a book
   try {
-    await prisma.book.delete({
+    await db.book.delete({
       where: {
         id: bookId,
       },

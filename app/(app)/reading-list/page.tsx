@@ -1,7 +1,8 @@
 import { columns } from "@/components/column";
 import { DataTable } from "@/components/data-table";
 import CreateBookModal from "@/components/modals/create-book-modal";
-import prisma from "@/lib/db";
+import { currentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,10 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  // TODO: Change query to find by user_id
-  const data = await prisma.readingList.findUnique({
+  const user = await currentUser();
+  const data = await db.readingList.findUnique({
     where: {
-      id: 1,
+      userId: user?.id,
     },
     include: {
       books: true,
@@ -25,7 +26,13 @@ export default async function Page() {
         <h2 className="text-1xl uppercase font-semibold">Reading List</h2>
         <CreateBookModal />
       </div>
-      <DataTable columns={columns} data={data?.books!} />
+      {data?.books.length ? (
+        <DataTable columns={columns} data={data?.books!} />
+      ) : (
+        <div className="text-center text-muted-foreground mt-6">
+          Please add new books to your reading list
+        </div>
+      )}
     </section>
   );
 }

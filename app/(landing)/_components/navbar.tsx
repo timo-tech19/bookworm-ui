@@ -5,6 +5,7 @@ import Logo from "@/components/ui/logo";
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { titleFont } from "@/lib/font";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // top navbar for landing page
 const Navbar = () => {
@@ -21,9 +22,11 @@ const Navbar = () => {
         <Logo size="large" />
       </div>
       <div>
-        <Button variant="ghost" className="font-semibold text-md">
-          Log in
-        </Button>
+        <Link href="/auth/login">
+          <Button variant="ghost" className="font-semibold text-md">
+            Log in
+          </Button>
+        </Link>
       </div>
     </nav>
   );
