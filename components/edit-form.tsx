@@ -21,9 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
-import { createBook, updateBook } from "@/lib/actions";
+import { createBook, updateBook } from "@/actions/book";
 import SubmitButton from "./submit-button";
 import { Book } from "@prisma/client";
+import { toast } from "sonner";
 
 const editBookSchema = z.object({
   title: z
@@ -52,7 +53,10 @@ export default function EditForm({ book }: { book: Book }) {
       ...values,
       id: book.id,
     };
-    await updateBook(updateValues);
+    const data = await updateBook(updateValues);
+
+    if (data?.error) toast.error(data.error);
+    if (data?.success) toast.success(data.success);
   }
 
   return (

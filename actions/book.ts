@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
+import { currentUser } from "@/lib/auth";
+import { getUserReadingListByUserId } from "@/data/reading-list";
 
 type NewBook = {
   title: string;
@@ -21,7 +23,14 @@ type UpdateBook = {
 };
 
 export async function createBook(values: NewBook) {
-  // TODO: check permissions
+  // check permissions
+  const user = await currentUser();
+  if (!user || !user.id) return;
+
+  // get user reading list
+  const userReadingList = await getUserReadingListByUserId(user.id);
+
+  if (!userReadingList) return { error: "Reading list not found" };
 
   // create a new book
   try {
@@ -31,19 +40,23 @@ export async function createBook(values: NewBook) {
         author: values.author,
         status: values.status,
         genre: values.genre,
-        // TODO: Add reading list field from authenticated user.
-        readingListId: 1,
+        readingListId: userReadingList.id,
       },
     });
 
     revalidatePath("/reading-list");
+    return { success: "Book added to reading list" };
   } catch (error) {
     console.log(error);
-    throw new Error("Could not create new book");
+    return { error: "Error creating book" };
   }
 }
 
 export async function updateBook(values: UpdateBook) {
+  // check permissions
+  const user = await currentUser();
+  if (!user || !user.id) return;
+
   try {
     const updatedBook = await db.book.update({
       where: {
@@ -58,14 +71,17 @@ export async function updateBook(values: UpdateBook) {
     });
 
     revalidatePath(`/books/${updatedBook.id}`);
+    return { success: "Book updated!" };
   } catch (error) {
     console.log(error);
-    throw new Error("Could not update book");
+    return { error: "Error updating book" };
   }
 }
 
 export async function deleteBook(bookId: number) {
   // TODO: check permissions
+  const user = await currentUser();
+  if (!user) return;
 
   // delete a book
   try {
@@ -76,8 +92,9 @@ export async function deleteBook(bookId: number) {
     });
 
     revalidatePath("/reading-list");
+    return { success: "Book deleted!" };
   } catch (error) {
     console.log(error);
-    throw new Error("Could not delete book");
+    return { error: "Error deleting book." };
   }
 }

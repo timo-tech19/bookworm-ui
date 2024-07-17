@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { capitalise, cn } from "@/lib/utils";
-import { deleteBook } from "@/lib/actions";
+import { deleteBook } from "@/actions/book";
 import BookStatus from "./book-status";
 
 export type Book = {

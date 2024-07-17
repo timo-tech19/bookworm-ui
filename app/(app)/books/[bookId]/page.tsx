@@ -2,7 +2,7 @@ import { BookCopy, CircleDashed, Edit, User2 } from "lucide-react";
 
 import BookStatus from "@/components/book-status";
 import EditBookModal from "@/components/modals/edit-book-modal";
-import prisma from "@/lib/db";
+import { db } from "@/lib/db";
 import { capitalise } from "@/lib/utils";
 
 interface PageProps {
@@ -11,7 +11,7 @@ interface PageProps {
   };
 }
 export default async function Page({ params }: PageProps) {
-  const book = await prisma.book.findUnique({
+  const book = await db.book.findUnique({
     where: {
       id: Number(params.bookId),
     },

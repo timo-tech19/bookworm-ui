@@ -21,8 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
-import { createBook } from "@/lib/actions";
+import { createBook } from "@/actions/book";
 import SubmitButton from "./submit-button";
+import { toast } from "sonner";
 
 const createBookSchema = z.object({
   title: z
@@ -47,8 +48,14 @@ export default function CreateForm() {
   });
 
   async function onSubmit(values: z.infer<typeof createBookSchema>) {
-    await createBook(values);
-    form.reset();
+    const data = await createBook(values);
+
+    if (data?.error) toast.error(data.error);
+
+    if (data?.success) {
+      toast.success(data.success);
+      form.reset();
+    }
   }
 
   return (
