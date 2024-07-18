@@ -26,8 +26,11 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { updateBook } from "@/actions/book";
 import SubmitButton from "@/components/submit-button";
 import { bookSchema } from "@/schemas";
+import { useEditBook } from "@/hooks/use-edit-book";
 
 export default function EditForm({ book }: { book: Book }) {
+  const { setIsOpen } = useEditBook();
+
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
@@ -46,7 +49,10 @@ export default function EditForm({ book }: { book: Book }) {
     const data = await updateBook(updateValues);
 
     if (data?.error) toast.error(data.error);
-    if (data?.success) toast.success(data.success);
+    if (data?.success) {
+      toast.success(data.success);
+      setIsOpen(false);
+    }
   }
 
   return (

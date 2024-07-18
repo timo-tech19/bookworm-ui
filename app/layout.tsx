@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
+import { auth } from "@/auth";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
+import ModalProvider from "@/components/providers/modal-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
         <body className={cn("bg-slate-100", inter.className)}>
           <main>{children}</main>
           <Toaster />
+          <ModalProvider />
         </body>
       </html>
     </SessionProvider>

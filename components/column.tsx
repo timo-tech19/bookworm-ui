@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DoorOpen, MoreHorizontal, Trash } from "lucide-react";
+import { DoorOpen, Edit, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -16,6 +16,7 @@ import { capitalise } from "@/lib/utils";
 import { deleteBook } from "@/actions/book";
 import BookStatus from "./book-status";
 import { Book } from "@prisma/client";
+import { useEditBook } from "@/hooks/use-edit-book";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -58,6 +59,8 @@ export const columns: ColumnDef<Book>[] = [
     id: "actions",
     cell: ({ row }) => {
       const book = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { setIsOpen } = useEditBook();
 
       return (
         <DropdownMenu>
@@ -67,13 +70,17 @@ export const columns: ColumnDef<Book>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent className="space-y-1" align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
               <Link href={`/books/${book.id}`} className="flex items-center">
                 <DoorOpen className="h-5 w-5 mr-2" />
                 <span>Open</span>
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setIsOpen(true)}>
+              <Edit className="h-5 w-5 mr-2" />
+              <span>Edit</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteBook(book.id)}>
               <Trash className="h-5 w-5 mr-2" />
