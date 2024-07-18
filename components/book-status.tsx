@@ -1,7 +1,8 @@
 import { capitalise, cn } from "@/lib/utils";
+import { BookStatus as BookStatusType } from "@prisma/client";
 
 interface BookStatusProps {
-  bookStatus: string;
+  bookStatus: BookStatusType;
 }
 export default function BookStatus({ bookStatus }: BookStatusProps) {
   return (
@@ -12,8 +13,6 @@ export default function BookStatus({ bookStatus }: BookStatusProps) {
         bookStatus === "reading" && "bg-blue-200",
         bookStatus === "done" && "bg-green-200",
         bookStatus === "archive" && "bg-slate-200"
-        // bookStatus === "on-hold" && "bg-orange-200",
-        // bookStatus === "dropped" && "bg-purple-200"
       )}
     >
       {capitalise(bookStatus)}

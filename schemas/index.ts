@@ -21,3 +21,15 @@ export const RegisterSchema = z.object({
     message: "Name is required",
   }),
 });
+
+export const bookSchema = z.object({
+  id: z.optional(z.number()),
+  title: z
+    .string()
+    .min(2, { message: "Book title must be at lease 2 characters" }),
+  author: z
+    .string()
+    .min(2, { message: "Author name must be at lease 2 characters" }),
+  status: z.enum(["unread", "reading", "done", "archive"]),
+  genre: z.string(),
+});

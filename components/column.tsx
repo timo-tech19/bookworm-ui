@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Book, DoorOpen, MoreHorizontal, Trash } from "lucide-react";
+import { DoorOpen, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -12,18 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { capitalise, cn } from "@/lib/utils";
+import { capitalise } from "@/lib/utils";
 import { deleteBook } from "@/actions/book";
 import BookStatus from "./book-status";
-
-export type Book = {
-  id: number;
-  title: string;
-  author: string;
-  genre: string;
-  status: string;
-  readingListId: number;
-};
+import { Book } from "@prisma/client";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -65,7 +57,6 @@ export const columns: ColumnDef<Book>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      // Use later to delete book
       const book = row.original;
 
       return (
@@ -79,8 +70,10 @@ export const columns: ColumnDef<Book>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <DoorOpen className="h-5 w-5 mr-2" />
-              <span>Open</span>
+              <Link href={`/books/${book.id}`} className="flex items-center">
+                <DoorOpen className="h-5 w-5 mr-2" />
+                <span>Open</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => deleteBook(book.id)}>
               <Trash className="h-5 w-5 mr-2" />

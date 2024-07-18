@@ -58,11 +58,18 @@ model ReadingList {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum BookStatus {
+  unread
+  reading
+  done
+  archive
+}
+
 model Book {
   id            Int         @id @default(autoincrement())
   title         String
   author        String
-  status        String
+  status        BookStatus  @default(unread)
   genre         String
   readingListId Int
   readingList   ReadingList @relation(fields: [readingListId], references: [id])

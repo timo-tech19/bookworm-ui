@@ -1,31 +1,19 @@
 "use server";
 
+import * as z from "zod";
 import { revalidatePath } from "next/cache";
+
 import { db } from "@/lib/db";
 import { currentUser } from "@/lib/auth";
 import { getUserReadingListByUserId } from "@/data/reading-list";
+import { bookSchema } from "@/schemas";
 
-type NewBook = {
-  title: string;
-  author: string;
-  status: string;
-  genre: string;
-  // TODO: Add reading list field from authenticated user.
-};
-
-type UpdateBook = {
-  id: number;
-  title: string;
-  author: string;
-  status: string;
-  genre: string;
-  // TODO: Add reading list field from authenticated user.
-};
-
-export async function createBook(values: NewBook) {
+export async function createBook(values: z.infer<typeof bookSchema>) {
   // check permissions
   const user = await currentUser();
-  if (!user || !user.id) return;
+  if (!user || !user.id) {
+    return { error: "Unauthorized" };
+  }
 
   // get user reading list
   const userReadingList = await getUserReadingListByUserId(user.id);
@@ -52,10 +40,16 @@ export async function createBook(values: NewBook) {
   }
 }
 
-export async function updateBook(values: UpdateBook) {
+export async function updateBook(values: z.infer<typeof bookSchema>) {
   // check permissions
   const user = await currentUser();
-  if (!user || !user.id) return;
+  if (!user || !user.id) {
+    return { error: "Unauthorized" };
+  }
+
+  if (!values.id) {
+    return { error: "Invalid book id" };
+  }
 
   try {
     const updatedBook = await db.book.update({
@@ -79,9 +73,11 @@ export async function updateBook(values: UpdateBook) {
 }
 
 export async function deleteBook(bookId: number) {
-  // TODO: check permissions
+  // check permissions
   const user = await currentUser();
-  if (!user) return;
+  if (!user || !user.id) {
+    return { error: "Unauthorized" };
+  }
 
   // delete a book
   try {

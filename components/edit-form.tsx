@@ -3,6 +3,8 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Book } from "@prisma/client";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -21,25 +23,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
-import { createBook, updateBook } from "@/actions/book";
-import SubmitButton from "./submit-button";
-import { Book } from "@prisma/client";
-import { toast } from "sonner";
-
-const editBookSchema = z.object({
-  title: z
-    .string()
-    .min(2, { message: "Book title must be at lease 2 characters" }),
-  author: z
-    .string()
-    .min(2, { message: "Author name must be at lease 2 characters" }),
-  status: z.string(),
-  genre: z.string(),
-});
+import { updateBook } from "@/actions/book";
+import SubmitButton from "@/components/submit-button";
+import { bookSchema } from "@/schemas";
 
 export default function EditForm({ book }: { book: Book }) {
-  const form = useForm<z.infer<typeof editBookSchema>>({
-    resolver: zodResolver(editBookSchema),
+  const form = useForm<z.infer<typeof bookSchema>>({
+    resolver: zodResolver(bookSchema),
     defaultValues: {
       title: book.title,
       author: book.author,
@@ -48,7 +38,7 @@ export default function EditForm({ book }: { book: Book }) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof editBookSchema>) {
+  async function onSubmit(values: z.infer<typeof bookSchema>) {
     const updateValues = {
       ...values,
       id: book.id,

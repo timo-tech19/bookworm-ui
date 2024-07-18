@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -21,24 +22,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
+import SubmitButton from "@/components/submit-button";
 import { createBook } from "@/actions/book";
-import SubmitButton from "./submit-button";
-import { toast } from "sonner";
-
-const createBookSchema = z.object({
-  title: z
-    .string()
-    .min(2, { message: "Book title must be at lease 2 characters" }),
-  author: z
-    .string()
-    .min(2, { message: "Author name must be at lease 2 characters" }),
-  status: z.enum(["unread", "reading", "done", "archive"]),
-  genre: z.string(),
-});
+import { bookSchema } from "@/schemas";
 
 export default function CreateForm() {
-  const form = useForm<z.infer<typeof createBookSchema>>({
-    resolver: zodResolver(createBookSchema),
+  const form = useForm<z.infer<typeof bookSchema>>({
+    resolver: zodResolver(bookSchema),
     defaultValues: {
       title: "",
       author: "",
@@ -47,7 +37,7 @@ export default function CreateForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof createBookSchema>) {
+  async function onSubmit(values: z.infer<typeof bookSchema>) {
     const data = await createBook(values);
 
     if (data?.error) toast.error(data.error);
