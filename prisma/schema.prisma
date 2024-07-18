@@ -71,6 +71,10 @@ model Book {
   author        String
   status        BookStatus  @default(unread)
   genre         String
+  rating        Int?
+  isFavourite   Boolean     @default(false)
+  startDate     DateTime?
+  endDate       DateTime?
   readingListId Int
   readingList   ReadingList @relation(fields: [readingListId], references: [id])
 }

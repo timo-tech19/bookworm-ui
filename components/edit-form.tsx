@@ -23,10 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
-import { updateBook } from "@/actions/book";
 import SubmitButton from "@/components/submit-button";
+import Stars from "@/components/stars";
+import { updateBook } from "@/actions/book";
 import { bookSchema } from "@/schemas";
 import { useEditBook } from "@/hooks/use-edit-book";
+import { RATINGS } from "@/lib/constants";
 
 export default function EditForm({ book }: { book: Book }) {
   const { setIsOpen } = useEditBook();
@@ -38,12 +40,14 @@ export default function EditForm({ book }: { book: Book }) {
       author: book.author,
       status: book.status,
       genre: book.genre,
+      rating: book.rating || undefined,
     },
   });
 
   async function onSubmit(values: z.infer<typeof bookSchema>) {
     const updateValues = {
       ...values,
+      rating: String(values.rating) === "none" ? null : Number(values.rating),
       id: book.id,
     };
     const data = await updateBook(updateValues);
@@ -103,6 +107,34 @@ export default function EditForm({ book }: { book: Book }) {
                   <SelectItem value="archive">Archive</SelectItem>
                 </SelectContent>
               </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="rating"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Rating</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={String(field.value)}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a book rating" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {RATINGS.map((rating) => (
+                    <SelectItem key={rating} value={String(rating)}>
+                      <Stars rating={rating} />
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
             </FormItem>
           )}
         />

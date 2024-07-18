@@ -17,6 +17,7 @@ import { deleteBook } from "@/actions/book";
 import BookStatus from "./book-status";
 import { Book } from "@prisma/client";
 import { useEditBook } from "@/hooks/use-edit-book";
+import Stars from "./stars";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -44,6 +45,22 @@ export const columns: ColumnDef<Book>[] = [
     accessorKey: "author",
   },
   {
+    header: "Rating",
+    accessorKey: "rating",
+    cell: ({ row }) => {
+      const rating = row.original.rating;
+      return (
+        <div className="text-muted-foreground">
+          {rating ? (
+            <Stars rating={rating} />
+          ) : (
+            <span className="text-xs">none</span>
+          )}
+        </div>
+      );
+    },
+  },
+  {
     header: "Status",
     accessorKey: "status",
     cell: ({ row }) => <BookStatus bookStatus={row.original.status} />,
@@ -53,6 +70,30 @@ export const columns: ColumnDef<Book>[] = [
     accessorKey: "genre",
     cell: ({ row }) => {
       return <span>{capitalise(row.original.genre)}</span>;
+    },
+  },
+  {
+    header: "Start Date",
+    accessorKey: "startDate",
+    cell: ({ row }) => {
+      const startDate = row.original.startDate;
+      return (
+        <span className="text-muted-foreground">
+          {startDate ? "" : "-- Not available -- "}
+        </span>
+      );
+    },
+  },
+  {
+    header: "End Date",
+    accessorKey: "endDate",
+    cell: ({ row }) => {
+      const endDate = row.original.endDate;
+      return (
+        <span className="text-muted-foreground">
+          {endDate ? "" : "-- Not available -- "}
+        </span>
+      );
     },
   },
   {

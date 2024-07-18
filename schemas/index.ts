@@ -32,4 +32,7 @@ export const bookSchema = z.object({
     .min(2, { message: "Author name must be at lease 2 characters" }),
   status: z.enum(["unread", "reading", "done", "archive"]),
   genre: z.string(),
+  rating: z.optional(z.union([z.string(), z.number()])).nullable(),
+  startDate: z.optional(z.date()),
+  endDate: z.optional(z.date()),
 });

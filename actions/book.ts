@@ -28,6 +28,7 @@ export async function createBook(values: z.infer<typeof bookSchema>) {
         author: values.author,
         status: values.status,
         genre: values.genre,
+        rating: values.rating as number | null,
         readingListId: userReadingList.id,
       },
     });
@@ -61,6 +62,7 @@ export async function updateBook(values: z.infer<typeof bookSchema>) {
         author: values.author,
         status: values.status,
         genre: values.genre,
+        rating: values.rating as number | null | undefined,
       },
     });
 

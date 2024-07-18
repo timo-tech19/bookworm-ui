@@ -1,9 +1,10 @@
-import { BookCopy, CircleDashed, User2 } from "lucide-react";
+import { BookCopy, CircleDashed, Star, User2 } from "lucide-react";
 
 import BookStatus from "@/components/book-status";
 import EditBookModal from "@/components/modals/edit-book-modal";
 import { db } from "@/lib/db";
 import { capitalise } from "@/lib/utils";
+import Stars from "@/components/stars";
 
 interface PageProps {
   params: {
@@ -54,6 +55,16 @@ export default async function Page({ params }: PageProps) {
           </span>
           <span className="flex-1 font-semibold">
             {book.genre && capitalise(book.genre)}
+          </span>
+        </p>
+        <hr />
+        <p className="flex items-center gap-x-10">
+          <span className="flex items-center text-slate-500">
+            <Star className="w-6 h-6 mr-2" />
+            <span>Rating</span>
+          </span>
+          <span className="flex-1 font-semibold">
+            {book.rating && <Stars rating={book.rating} />}
           </span>
         </p>
       </div>
